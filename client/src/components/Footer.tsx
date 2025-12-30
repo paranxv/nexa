@@ -1,4 +1,4 @@
-import { ShieldCheck, CreditCard, Lock } from 'lucide-react'
+import { ShieldCheck, Lock } from 'lucide-react'
 
 export function Footer() {
     return (

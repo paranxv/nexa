@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog'
 import { X, Trash2, ArrowRight } from 'lucide-react'
 import { useCartStore } from '../stores/useCartStore'
-import { cn } from '../lib/utils'
+
 
 export function CartDrawer() {
     const { isOpen, toggleCart, items, total, removeItem } = useCartStore()

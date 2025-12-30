@@ -1,6 +1,6 @@
 import { ShoppingCart, Search, Menu, User } from 'lucide-react'
 import { useCartStore } from '../stores/useCartStore'
-import { cn } from '../lib/utils'
+
 
 export function Header() {
     const { items, toggleCart } = useCartStore()
