@@ -32,7 +32,8 @@ export function Footer() {
                     <div>
                         <h4 className="font-bold mb-4 text-lg">Support</h4>
                         <ul className="space-y-2 text-gray-400">
-                            <li><a href="#" className="hover:text-secondary">Contact Us</a></li>
+                            <li><span className="text-secondary font-bold">888 431 7172</span></li>
+                            <li><a href="mailto:support@nexa.com" className="hover:text-secondary">support@nexa.com</a></li>
                             <li><a href="#" className="hover:text-secondary">FAQs</a></li>
                             <li><a href="#" className="hover:text-secondary">License Retrieval</a></li>
                             <li><a href="#" className="hover:text-secondary">Installation Guide</a></li>
