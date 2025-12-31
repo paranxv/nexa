@@ -22,7 +22,7 @@ export function Header() {
                             <Menu className="w-6 h-6" />
                         </button>
                         <a href="/" className="text-2xl font-bold tracking-tight text-white hover:text-secondary transition-colors">
-                            nexa
+                            Nexatechsol
                         </a>
                     </div>
 

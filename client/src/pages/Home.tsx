@@ -1,62 +1,113 @@
 import { Header } from '../components/Header'
 import { Footer } from '../components/Footer'
 import { HeroSection } from '../components/HeroSection'
-import { ProductCard } from '../components/ProductCard'
+import { PricingCard, Plan } from '../components/PricingCard'
+import { AddonServices } from '../components/AddonServices'
 import { CartDrawer } from '../components/CartDrawer'
 
-// Mock data until backend is ready
-const PRODUCTS = [
+// Images
+import basicBox from '../assets/box_basic.png'
+import advancedBox from '../assets/box_advanced.png'
+import premiumBox from '../assets/box_premium.png'
+
+const PLANS: Plan[] = [
     {
         id: 1,
-        title: "Norton 360 Deluxe",
-        price: 49.99,
-        image_url: "https://placehold.co/400x400/1a237e/FFF?text=Norton+360",
-        brand: "Norton"
+        title: "BASIC SECURITY & SUPPORT PLAN",
+        price: 179,
+        duration: "1 Year",
+        description: "Best for single users / basic protection",
+        image_url: basicBox,
+        features: [
+            { text: "Protection for 1 Device (PC or Mac)" },
+            { text: "Antivirus + Anti-Malware Protection" },
+            { text: "Real-Time Threat Monitoring" },
+            { text: "Spyware & Adware Removal" },
+            { text: "One-Time PC Health Check" },
+            { text: "Basic Firewall Configuration" },
+            { text: "Email Support + Limited Phone Support" },
+            { text: "Installation & Setup Assistance" },
+            { text: "OS Optimization (basic)" }
+        ]
     },
     {
         id: 2,
-        title: "McAfee Total Protection",
-        price: 39.99,
-        image_url: "https://placehold.co/400x400/e53935/FFF?text=McAfee",
-        brand: "McAfee"
+        title: "ADVANCED SECURITY & TECH SUPPORT",
+        price: 279,
+        duration: "1 Year",
+        description: "Most Popular Plan",
+        image_url: advancedBox,
+        popular: true,
+        features: [
+            { text: "Includes everything in Basic, PLUS:" },
+            { text: "Protection for Up to 3 Devices" },
+            { text: "Advanced Firewall Protection" },
+            { text: "Ransomware Protection" },
+            { text: "Browser & Online Banking Security" },
+            { text: "Data Cleanup & Performance Tune-Up" },
+            { text: "Unlimited Virus & Malware Removal" },
+            { text: "Unlimited Phone & Chat Support" },
+            { text: "Monthly System Health Monitoring" },
+            { text: "Software Update Assistance" }
+        ]
     },
     {
         id: 3,
-        title: "Bitdefender Antivirus Plus",
-        price: 29.99,
-        image_url: "https://placehold.co/400x400/424242/FFF?text=Bitdefender",
-        brand: "Bitdefender"
-    },
-    {
-        id: 4,
-        title: "Kaspersky Internet Security",
-        price: 34.99,
-        image_url: "https://placehold.co/400x400/00695c/FFF?text=Kaspersky",
-        brand: "Kaspersky"
-    },
+        title: "PREMIUM TOTAL SECURITY & SUPPORT",
+        price: 379,
+        duration: "1 Year",
+        description: "Best Value / Maximum Protection",
+        image_url: premiumBox,
+        bestValue: true,
+        features: [
+            { text: "Includes everything in Advanced, PLUS:" },
+            { text: "Protection for Up to 5 Devices" },
+            { text: "Identity Theft Protection (Basic Monitoring)" },
+            { text: "Dark Web Monitoring (Email & Credentials)" },
+            { text: "Network Security & Wi-Fi Protection" },
+            { text: "Operating System Error Fixes" },
+            { text: "Advanced Data Protection & Backup Guidance" },
+            { text: "Priority 24/7 Tech Support" },
+            { text: "Quarterly Full System Tune-Up" },
+            { text: "Dedicated Senior Technician Access" }
+        ]
+    }
+]
+
+const ADDONS = [
+    { id: 101, title: "Lifetime Support Upgrade", price: 99 },
+    { id: 102, title: "Cloud Backup Setup", price: 79 },
+    { id: 103, title: "VPN Secure Browsing", price: 69 },
+    { id: 104, title: "Additional Device Protection", price: 39 }, // per device
 ]
 
 export function Home() {
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-white font-sans">
             <Header />
             <HeroSection />
 
             <main className="container py-16">
-                <div className="flex items-center justify-between mb-8">
-                    <h2 className="text-3xl font-bold text-dark-gray">Featured Deals</h2>
-                    <a href="#" className="font-bold text-primary hover:text-secondary">View all products &rarr;</a>
+                <div className="text-center mb-16">
+                    <h2 className="text-3xl md:text-4xl font-bold text-dark-gray mb-4">Choose Your Protection Plan</h2>
+                    <p className="text-gray-500 max-w-2xl mx-auto">
+                        Comprehensive security solutions tailored to your needs. All plans include our premium 24/7 support.
+                    </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    {PRODUCTS.map(product => (
-                        <ProductCard key={product.id} product={product} />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                    {PLANS.map(plan => (
+                        <PricingCard key={plan.id} plan={plan} />
                     ))}
+                </div>
+
+                <div className="mt-24 max-w-4xl mx-auto">
+                    <AddonServices addons={ADDONS} />
                 </div>
 
                 <div className="mt-20 bg-light-gray rounded-2xl p-8 lg:p-12 relative overflow-hidden">
                     <div className="relative z-10 max-w-2xl">
-                        <h2 className="text-3xl font-bold mb-4">Why choose nexa?</h2>
+                        <h2 className="text-3xl font-bold mb-4">Why choose Nexatechsol?</h2>
                         <ul className="space-y-4">
                             <li className="flex items-center gap-3">
                                 <div className="w-8 h-8 rounded-full bg-secondary text-primary flex items-center justify-center font-bold">1</div>
