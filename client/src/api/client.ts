@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // Use environment variable or fallback for dev
-const API_URL = import.meta.env.VITE_API_URL || 'https://nexa-backend-31jcp07li-paranavs-projects-1bdbea90.vercel.app'
+const API_URL = import.meta.env.VITE_API_URL || 'https://nexa-backend-ten.vercel.app'
 
 export const api = axios.create({
     baseURL: API_URL,
