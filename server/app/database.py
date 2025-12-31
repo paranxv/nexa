@@ -13,7 +13,11 @@ if not DATABASE_URL:
     # I'll enable this check to warn/fail if needed, or default to a dummy one
     pass
 
-engine = create_engine(DATABASE_URL if DATABASE_URL else "sqlite:///./test.db")
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+# Handle Vercel read-only filesystem by using /tmp for SQLite fallback
+engine = create_engine(DATABASE_URL if DATABASE_URL else "sqlite:////tmp/test.db")
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
