@@ -10,6 +10,7 @@ class ProductBase(BaseModel):
     image_url: str
     features: Optional[str] = None
     stock: int = 100
+    reviews: Optional[str] = None
 
 class ProductCreate(ProductBase):
     pass

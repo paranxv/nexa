@@ -7,8 +7,10 @@ router = APIRouter(
     tags=["checkout"],
 )
 
+from . import auth
+
 @router.post("/", response_model=schemas.Order)
-def create_order(order: schemas.OrderCreate, db: Session = Depends(database.get_db)):
+def create_order(order: schemas.OrderCreate, db: Session = Depends(database.get_db), current_user: schemas.User = Depends(auth.get_current_user)):
     cart = db.query(models.Cart).filter(models.Cart.id == order.cart_id).first()
     if not cart:
         raise HTTPException(status_code=404, detail="Cart not found")

@@ -5,6 +5,7 @@ import { HeroSection } from '../components/HeroSection'
 import { PricingCard, Plan } from '../components/PricingCard'
 import { AddonServices } from '../components/AddonServices'
 import { CartDrawer } from '../components/CartDrawer'
+import { LaptopCard } from '../components/LaptopCard'
 import { api } from '../api/client'
 
 // Images (Fallback or mapped if needed, though backend should provide URLs)
@@ -15,6 +16,7 @@ import premiumBox from '../assets/box_premium.png'
 export function Home() {
     const [plans, setPlans] = useState<Plan[]>([])
     const [addons, setAddons] = useState<any[]>([])
+    const [laptops, setLaptops] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -47,8 +49,12 @@ export function Home() {
                     price: p.price
                 }))
 
+                // Laptops (Stock 0)
+                const fetchedLaptops = allProducts.filter((p: any) => p.stock === 0)
+
                 setPlans(fetchedPlans)
                 setAddons(fetchedAddons)
+                setLaptops(fetchedLaptops)
             } catch (error) {
                 console.error("Failed to fetch products", error)
             } finally {
@@ -81,6 +87,23 @@ export function Home() {
                         <PricingCard key={plan.id} plan={plan} />
                     ))}
                 </div>
+
+                {/* Laptops Section */}
+                {laptops.length > 0 && (
+                    <div className="mt-32">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-bold text-dark-gray mb-4">Premium Laptops</h2>
+                            <p className="text-red-500 font-medium bg-red-50 inline-block px-4 py-1 rounded-full text-sm">
+                                Currently Out of Stock due to high demand
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {laptops.map((laptop: any) => (
+                                <LaptopCard key={laptop.id} product={laptop} />
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 <div className="mt-24 max-w-4xl mx-auto">
                     <AddonServices addons={addons} />

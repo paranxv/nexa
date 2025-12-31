@@ -20,6 +20,7 @@ class Product(Base):
     image_url = Column(String)
     features = Column(String) # JSON string or text representation
     stock = Column(Integer, default=100)
+    reviews = Column(String) # JSON string of reviews
 
 class Cart(Base):
     __tablename__ = "carts"

@@ -5,8 +5,10 @@
 @tailwind utilities;
 
 :root {
-  --color-primary: #1a237e;
-  --color-secondary: #e5ae42;
+  /* Blue from logo */
+  --color-primary: #0F4C81;
+  /* Green from logo */
+  --color-secondary: #77BC1F;
 }
 
 /* Custom Base Styles */

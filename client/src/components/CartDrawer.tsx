@@ -2,9 +2,23 @@ import * as Dialog from '@radix-ui/react-dialog'
 import { X, Trash2, ArrowRight } from 'lucide-react'
 import { useCartStore } from '../stores/useCartStore'
 
+import { useNavigate } from 'react-router-dom'
+import { AuthService } from '../api/auth'
 
 export function CartDrawer() {
     const { isOpen, toggleCart, items, total, removeItem } = useCartStore()
+    const navigate = useNavigate()
+
+    const handleCheckout = () => {
+        if (!AuthService.isAuthenticated()) {
+            toggleCart()
+            navigate('/login')
+            return
+        }
+        // Proceed to checkout logic (e.g. call API or show payment modal)
+        // For now we just log, or we could redirect to a checkout page if we had one.
+        console.log("Proceeding to checkout...")
+    }
 
     return (
         <Dialog.Root open={isOpen} onOpenChange={toggleCart}>
@@ -57,7 +71,10 @@ export function CartDrawer() {
                                 <span className="text-2xl font-bold text-primary">${total.toFixed(2)}</span>
                             </div>
                             <p className="text-xs text-center text-gray-500 mb-4">Shipping and taxes calculated at checkout.</p>
-                            <button className="w-full btn btn-primary flex items-center justify-center gap-2">
+                            <button
+                                onClick={handleCheckout}
+                                className="w-full btn btn-primary flex items-center justify-center gap-2"
+                            >
                                 Checkout <ArrowRight className="w-4 h-4" />
                             </button>
                             <div className="mt-4 flex justify-center gap-2 grayscale opacity-60">
