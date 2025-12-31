@@ -6,7 +6,7 @@ alembic
 python-dotenv
 paypal-checkout-serversdk
 pydantic
-mangum
+
 python-jose[cryptography]
 passlib[bcrypt]
 python-multipart

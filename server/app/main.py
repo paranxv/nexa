@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from mangum import Mangum
+
 from .routers import products, cart, checkout, payment, auth
 from . import models, database
 
@@ -33,7 +33,8 @@ app.include_router(checkout.router)
 app.include_router(payment.router)
 app.include_router(auth.router)
 
-handler = Mangum(app)
+# Expose app for Vercel (it automatically detects 'app')
+# handler = Mangum(app)
 
 @app.get("/")
 def read_root():
