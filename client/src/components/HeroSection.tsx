@@ -64,7 +64,7 @@ export function HeroSection() {
                         <motion.div
                             animate={{ y: [0, -10, 0] }}
                             transition={{ repeat: Infinity, duration: 4 }}
-                            className="absolute -top-6 -right-6 bg-white p-4 rounded-lg shadow-xl"
+                            className="absolute -top-6 -right-6 bg-white p-4 rounded-lg shadow-xl z-20"
                         >
                             <div className="flex items-center gap-3">
                                 <div className="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">

@@ -8,8 +8,8 @@ module.exports = {
         extend: {
             colors: {
                 primary: "#1a237e", // Navy
-                secondary: "#e5ae42", // Gold
-                "secondary-hover": "#d49e35",
+                secondary: "#77BC1F", // Green
+                "secondary-hover": "#66a31a", // Darker Green
                 "dark-gray": "#1a1a1a",
                 "light-gray": "#f5f5f5",
                 "text-light": "#ffffff",
