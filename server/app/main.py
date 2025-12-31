@@ -4,7 +4,10 @@ from mangum import Mangum
 from .routers import products, cart, checkout, payment, auth
 from . import models, database
 
-models.Base.metadata.create_all(bind=database.engine)
+try:
+    models.Base.metadata.create_all(bind=database.engine)
+except Exception as e:
+    print(f"Error creating database tables: {e}")
 
 app = FastAPI(title="Nexa API")
 
@@ -17,7 +20,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"], # Allow all for debugging/production if needed temporarily
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
