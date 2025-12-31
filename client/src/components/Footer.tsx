@@ -1,4 +1,5 @@
 import { ShieldCheck, Lock } from 'lucide-react'
+import logo from '../assets/logo.png'
 
 export function Footer() {
     return (
@@ -6,7 +7,7 @@ export function Footer() {
             <div className="container">
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
                     <div>
-                        <h3 className="text-2xl font-bold mb-4 text-white">Nexatechsol</h3>
+                        <img src={logo} alt="Nexatechsol" className="h-16 w-auto mb-4" />
                         <p className="text-gray-400 mb-4">
                             Premium antivirus solutions for your digital life. protection you can trust.
                         </p>

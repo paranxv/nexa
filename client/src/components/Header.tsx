@@ -1,5 +1,7 @@
 import { ShoppingCart, Search, Menu, User } from 'lucide-react'
 import { useCartStore } from '../stores/useCartStore'
+import { AuthService } from '../api/auth'
+import logo from '../assets/logo.png'
 
 
 export function Header() {
@@ -21,8 +23,8 @@ export function Header() {
                         <button className="lg:hidden p-2 hover:bg-white/10 rounded-full">
                             <Menu className="w-6 h-6" />
                         </button>
-                        <a href="/" className="text-2xl font-bold tracking-tight text-white hover:text-secondary transition-colors">
-                            Nexatechsol
+                        <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                            <img src={logo} alt="Nexatechsol" className="h-12 w-auto" />
                         </a>
                     </div>
 
@@ -38,10 +40,30 @@ export function Header() {
                     </div>
 
                     <div className="flex items-center gap-4">
-                        <button className="flex items-center gap-2 hover:text-secondary transition-colors">
-                            <User className="w-6 h-6" />
-                            <span className="hidden sm:inline font-medium">Account</span>
-                        </button>
+                        {AuthService.isAuthenticated() ? (
+                            <div className="group relative">
+                                <button className="flex items-center gap-2 hover:text-secondary transition-colors">
+                                    <User className="w-6 h-6" />
+                                    <span className="hidden sm:inline font-medium">Account</span>
+                                </button>
+                                <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 absolute top-full right-0 bg-white text-black shadow-xl rounded-lg w-48 py-2 transition-all z-50">
+                                    <button
+                                        onClick={() => {
+                                            AuthService.logout();
+                                            window.location.reload();
+                                        }}
+                                        className="w-full text-left px-4 py-2 hover:bg-gray-100"
+                                    >
+                                        Logout
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <a href="/login" className="flex items-center gap-2 hover:text-secondary transition-colors">
+                                <User className="w-6 h-6" />
+                                <span className="hidden sm:inline font-medium">Login</span>
+                            </a>
+                        )}
 
                         <button
                             onClick={toggleCart}
