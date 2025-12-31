@@ -63,13 +63,14 @@ def refresh_token(refresh_token: str, db: Session = Depends(database.get_db)):
         access_token = utils.create_access_token(
             data={"sub": email, "id": user_id}, expires_delta=access_token_expires
         )
-        # Rotate refresh token (optional, but good practice) - checking if needed, user didn't explicitly ask for rotation but "refresh token apis"
-        # For simplicity return same refresh token or new one. Let's return new one to be safe.
+        # Rotate refresh token
         new_refresh_token = utils.create_refresh_token(
             data={"sub": email, "id": user_id}
         )
         
         return {"access_token": access_token, "refresh_token": new_refresh_token, "token_type": "bearer"}
+    except JWTError:
+        raise HTTPException(status_code=401, detail="Invalid refresh token")
 
 
 # Validates token and retrieves user
@@ -81,15 +82,13 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
     )
     try:
         payload = jwt.decode(token, utils.SECRET_KEY, algorithms=[utils.ALGORITHM])
-        email: str = payload.get("sub")
-        user_id: int = payload.get("id")
-        if email is None or user_id is None:
+        username: str = payload.get("sub")
+        if username is None:
             raise credentials_exception
-        token_data = schemas.TokenData(email=email)
+        token_data = schemas.TokenData(username=username)
     except JWTError:
         raise credentials_exception
-        
-    user = db.query(models.User).filter(models.User.id == user_id).first()
+    user = db.query(models.User).filter(models.User.email == token_data.username).first()
     if user is None:
         raise credentials_exception
     return user
