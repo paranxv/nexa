@@ -1,5 +1,5 @@
 from typing import List, Optional, Any, Dict, Union
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from datetime import datetime
 
 class ProductBase(BaseModel):
@@ -68,7 +68,7 @@ class UserBase(BaseModel):
     email: EmailStr
 
 class UserCreate(UserBase):
-    password: str
+    password: str = Field(..., min_length=6, max_length=64)
 
 class User(UserBase):
     id: int

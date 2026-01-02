@@ -17,7 +17,16 @@ if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 # Handle Vercel read-only filesystem by using /tmp for SQLite fallback
-engine = create_engine(DATABASE_URL if DATABASE_URL else "sqlite:////tmp/test.db")
+# Ensure SSL for Postgres (common in Vercel/Neon)
+connect_args = {}
+if "sqlite" in (DATABASE_URL or ""):
+    check_same_thread = False
+    connect_args = {"check_same_thread": check_same_thread}
+
+engine = create_engine(
+    DATABASE_URL if DATABASE_URL else "sqlite:////tmp/test.db",
+    connect_args=connect_args
+)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()
