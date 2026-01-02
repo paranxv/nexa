@@ -1,8 +1,16 @@
 import { api } from './client'
 
 export const AuthService = {
-    login: async (email, password) => {
-        const response = await api.post('/auth/login', { username: email, password })
+    login: async (email: string, password: string) => {
+        const formData = new URLSearchParams()
+        formData.append('username', email)
+        formData.append('password', password)
+
+        const response = await api.post('/auth/login', formData, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        })
         if (response.data.access_token) {
             localStorage.setItem('access_token', response.data.access_token)
             localStorage.setItem('refresh_token', response.data.refresh_token)
@@ -10,7 +18,7 @@ export const AuthService = {
         return response.data
     },
 
-    signup: async (email, password) => {
+    signup: async (email: string, password: string) => {
         const response = await api.post('/auth/signup', { email, password })
         return response.data
     },
