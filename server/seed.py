@@ -5,8 +5,8 @@ import json
 db = SessionLocal()
 
 def seed():
-    # Drop existing products table to ensure schema update (Development only quick fix)
-    models.Product.__table__.drop(engine)
+    # Drop all tables to ensure clean schema (handles FKs)
+    models.Base.metadata.drop_all(bind=engine)
     models.Base.metadata.create_all(bind=engine)
     
     # Plans (Stock 100)
