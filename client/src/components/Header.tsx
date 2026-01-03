@@ -1,4 +1,5 @@
 import { ShoppingCart, Search, Menu, User } from 'lucide-react'
+import { useState } from 'react'
 import { useCartStore } from '../stores/useCartStore'
 import { AuthService } from '../api/auth'
 import logo from '../assets/logo.png'
@@ -7,6 +8,7 @@ import logo from '../assets/logo.png'
 export function Header() {
     const { items, toggleCart } = useCartStore()
     const itemCount = items.reduce((acc, item) => acc + item.quantity, 0)
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
     return (
         <header className="sticky top-0 z-50 shadow-md flex flex-col">
@@ -20,7 +22,10 @@ export function Header() {
             <div className="bg-primary text-text-light">
                 <div className="container h-20 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <button className="lg:hidden p-2 hover:bg-white/10 rounded-full">
+                        <button
+                            className="lg:hidden p-2 hover:bg-white/10 rounded-full"
+                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        >
                             <Menu className="w-6 h-6" />
                         </button>
                         <a href="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
@@ -89,6 +94,29 @@ export function Header() {
                             className="w-full h-10 pl-4 pr-10 rounded bg-white/10 text-white placeholder:text-white/60 focus:bg-white focus:text-black transition-colors"
                         />
                         <Search className="absolute right-3 top-2.5 w-5 h-5 text-white/60" />
+                    </div>
+                </div>
+
+                {/* Mobile Navigation Menu */}
+                {mobileMenuOpen && (
+                    <div className="md:hidden bg-primary border-t border-white/10">
+                        <nav className="flex flex-col p-4 space-y-4">
+                            <a href="/" className="text-white hover:text-secondary transition-colors">Home</a>
+                            <a href="/antivirus" className="text-white hover:text-secondary transition-colors">Antivirus Software</a>
+                            <a href="/laptops" className="text-white hover:text-secondary transition-colors">Laptops</a>
+                        </nav>
+                    </div>
+                )}
+
+
+                {/* Main Navigation (Desktop) */}
+                <div className="hidden md:block bg-primary border-t border-white/10">
+                    <div className="container">
+                        <nav className="flex items-center gap-8 h-12 text-sm font-medium">
+                            <a href="/" className="hover:text-secondary transition-colors">Home</a>
+                            <a href="/antivirus" className="hover:text-secondary transition-colors">Antivirus Software</a>
+                            <a href="/laptops" className="hover:text-secondary transition-colors">Laptops</a>
+                        </nav>
                     </div>
                 </div>
             </div>

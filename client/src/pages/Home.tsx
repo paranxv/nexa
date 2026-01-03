@@ -23,13 +23,16 @@ export function Home() {
         const fetchProducts = async () => {
             try {
                 const response = await api.get('/products')
+                // Only show Nexatechsol plans and addons on Home page
                 const allProducts = response.data
+
 
                 // Separate Plans and Addons based on price or title naming convention
                 // Or ideally backend separates them. 
                 // For now, let's assume "Plan" -> Plan, others -> Addon or filter by price high/low
+                // But since we filtered for Nexatechsol, we are safe from Laptops and other AVs.
 
-                const fetchedPlans = allProducts.filter((p: any) => p.price >= 100).map((p: any) => ({
+                const fetchedPlans = allProducts.filter((p: any) => p.brand === 'Nexatechsol' && p.price >= 100).map((p: any) => ({
                     ...p,
                     // Parse features if string
                     features: typeof p.features === 'string' ? JSON.parse(p.features).map((f: string) => ({ text: f })) : [],
@@ -43,14 +46,14 @@ export function Home() {
                     duration: '1 Year'
                 }))
 
-                const fetchedAddons = allProducts.filter((p: any) => p.price < 100).map((p: any) => ({
+                const fetchedAddons = allProducts.filter((p: any) => p.brand === 'Nexatechsol' && p.price < 100).map((p: any) => ({
                     id: p.id,
                     title: p.title,
                     price: p.price
                 }))
 
-                // Laptops (Stock 0)
-                const fetchedLaptops = allProducts.filter((p: any) => p.stock === 0)
+                // Laptops - Filter by title containing "Laptop"
+                const fetchedLaptops = allProducts.filter((p: any) => p.title.toLowerCase().includes('laptop'))
 
                 setPlans(fetchedPlans)
                 setAddons(fetchedAddons)
@@ -74,7 +77,7 @@ export function Home() {
             <Header />
             <HeroSection />
 
-            <main className="container py-16">
+            <main className="container mx-auto py-16">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-dark-gray mb-4">Choose Your Protection Plan</h2>
                     <p className="text-gray-500 max-w-2xl mx-auto">
