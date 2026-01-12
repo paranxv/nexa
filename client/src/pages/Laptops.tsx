@@ -22,9 +22,19 @@ export function Laptops() {
                 // Fetch all products to determine available filters and handle client-side filtering
                 // This ensures filters are always relevant to actual data
                 const response = await api.get('/products')
-                // Filter out Plans and Addons (Brand: Nexatechsol)
-                // We only want Laptops here
-                const products = response.data.filter((p: any) => p.brand !== 'Nexatechsol')
+                // Filter out Plans and known Antivirus software
+                // Keep Laptops, Printers, and other hardware/accessories
+                const products = response.data.filter((p: any) => {
+                    if (p.brand === 'Nexatechsol') return false;
+
+                    const title = p.title.toLowerCase();
+                    const avKeywords = ['antivirus', 'security', 'webroot', 'watchdog', 'norton', 'mcafee', 'kaspersky', 'bitdefender', 'eset', 'malware'];
+
+                    // Exclude if title contains any antivirus keyword
+                    if (avKeywords.some(k => title.includes(k))) return false;
+
+                    return true;
+                })
 
                 setAllProducts(products)
                 setDisplayedProducts(products)
@@ -153,7 +163,7 @@ export function Laptops() {
                     {/* Product Grid */}
                     <div className="flex-1">
                         <div className="mb-6">
-                            <h1 className="text-3xl font-bold text-dark-gray">Laptops</h1>
+                            <h1 className="text-3xl font-bold text-dark-gray">Laptops & Printers</h1>
                             <p className="text-gray-500 mt-2">
                                 {displayedProducts.length} products found
                             </p>
@@ -171,8 +181,14 @@ export function Laptops() {
                                     <LaptopCard key={product.id} product={product} />
                                 ))}
                                 {displayedProducts.length === 0 && (
-                                    <div className="col-span-full text-center py-12 text-gray-500">
-                                        No products found matching your filters.
+                                    <div className="col-span-full text-center py-12 text-gray-500 bg-gray-50 rounded-xl">
+                                        <p className="text-lg font-medium">No products found matching your filters.</p>
+                                        <button
+                                            onClick={() => setSelectedFilters([])}
+                                            className="mt-4 text-secondary hover:underline"
+                                        >
+                                            Clear all filters
+                                        </button>
                                     </div>
                                 )}
                             </div>

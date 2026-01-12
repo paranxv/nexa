@@ -51,7 +51,7 @@ export function HeroSection() {
                     >
                         <div className="relative z-10 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/10">
                             <img
-                                src="https://placehold.co/800x600/1a237e/FFF?text=Premium+Security+Suite"
+                                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80"
                                 alt="Antivirus Dashboard"
                                 className="w-full h-auto"
                             />

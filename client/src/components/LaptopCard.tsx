@@ -34,13 +34,15 @@ export function LaptopCard({ product }: LaptopCardProps) {
 
     return (
         <div className={`bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 flex flex-col h-full transition-all hover:shadow-lg ${product.stock === 0 ? 'opacity-75 hover:opacity-100' : ''}`}>
-            <div className="relative h-48 p-4 bg-gray-50 flex items-center justify-center">
+            <div className="relative h-48 p-4 bg-gray-50 flex items-center justify-center text-center">
                 <img
-                    src={product.image_url || "/placeholder.png"}
+                    src={product.image_url || `https://placehold.co/600x400?text=${product.title.split(' ')[0]}`}
                     alt={product.title}
                     className={`h-full object-contain ${product.stock === 0 ? 'grayscale' : ''}`}
                     onError={(e) => {
-                        (e.target as HTMLImageElement).src = 'https://via.placeholder.com/300?text=No+Image';
+                        const target = e.target as HTMLImageElement;
+                        target.onerror = null; // Prevent infinite loop
+                        target.src = `https://placehold.co/600x400?text=${product.title.split(' ')[0] || 'Image'}`;
                     }}
                 />
                 {product.stock === 0 && (

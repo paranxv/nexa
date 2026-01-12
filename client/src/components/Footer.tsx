@@ -33,7 +33,7 @@ export function Footer() {
                     <div>
                         <h4 className="font-bold mb-4 text-lg">Support</h4>
                         <ul className="space-y-2 text-gray-400">
-                            <li><span className="text-secondary font-bold">888 431 7172</span></li>
+                            {/* <li><span className="text-secondary font-bold">888 431 7172</span></li> */}
                             <li><a href="mailto:support@nexatechsol.com" className="hover:text-secondary">support@nexatechsol.com</a></li>
                             <li><a href="#" className="hover:text-secondary">FAQs</a></li>
                             <li><a href="#" className="hover:text-secondary">License Retrieval</a></li>
@@ -64,7 +64,7 @@ export function Footer() {
                     <div className="flex gap-6 mt-4 md:mt-0">
                         <a href="#" className="hover:text-white">Privacy Policy</a>
                         <a href="#" className="hover:text-white">Terms of Service</a>
-                        <a href="#" className="hover:text-white">Refund Policy</a>
+                        <a href="/refund-policy" className="hover:text-white">Refund Policy</a>
                     </div>
                 </div>
             </div>

@@ -7,16 +7,18 @@ import { AddonServices } from '../components/AddonServices'
 import { CartDrawer } from '../components/CartDrawer'
 import { LaptopCard } from '../components/LaptopCard'
 import { api } from '../api/client'
+import { HARDCODED_PLANS } from '../constants/plans'
 
 // Images (Fallback or mapped if needed, though backend should provide URLs)
-import basicBox from '../assets/box_basic.png'
-import advancedBox from '../assets/box_advanced.png'
-import premiumBox from '../assets/box_premium.png'
+import basicBox from '../assets/plus.png'
+import advancedBox from '../assets/pro.png'
+import premiumBox from '../assets/premium.png'
 
 export function Home() {
     const [plans, setPlans] = useState<Plan[]>([])
     const [addons, setAddons] = useState<any[]>([])
     const [laptops, setLaptops] = useState<any[]>([])
+    const [printers, setPrinters] = useState<any[]>([])
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
@@ -26,24 +28,12 @@ export function Home() {
                 // Only show Nexatechsol plans and addons on Home page
                 const allProducts = response.data
 
-
-                // Separate Plans and Addons based on price or title naming convention
-                // Or ideally backend separates them. 
-                // For now, let's assume "Plan" -> Plan, others -> Addon or filter by price high/low
-                // But since we filtered for Nexatechsol, we are safe from Laptops and other AVs.
-
-                const fetchedPlans = allProducts.filter((p: any) => p.brand === 'Nexatechsol' && p.price >= 100).map((p: any) => ({
+                // Use HARDCODED_PLANS but map images correctly
+                const fetchedPlans = HARDCODED_PLANS.map(p => ({
                     ...p,
-                    // Parse features if string
-                    features: typeof p.features === 'string' ? JSON.parse(p.features).map((f: string) => ({ text: f })) : [],
-                    // Map local images if URL matches seed
-                    image_url: p.image_url.includes('basic') ? basicBox :
-                        p.image_url.includes('advanced') ? advancedBox :
-                            p.image_url.includes('premium') ? premiumBox : p.image_url,
-                    // Add UI flags based on title
-                    popular: p.title.includes('ADVANCED'),
-                    bestValue: p.title.includes('PREMIUM'),
-                    duration: '1 Year'
+                    image_url: p.image_url === 'plus' ? basicBox :
+                        p.image_url === 'pro' ? advancedBox :
+                            p.image_url === 'premium' ? premiumBox : basicBox
                 }))
 
                 const fetchedAddons = allProducts.filter((p: any) => p.brand === 'Nexatechsol' && p.price < 100).map((p: any) => ({
@@ -54,10 +44,12 @@ export function Home() {
 
                 // Laptops - Filter by title containing "Laptop"
                 const fetchedLaptops = allProducts.filter((p: any) => p.title.toLowerCase().includes('laptop'))
+                const fetchedPrinters = allProducts.filter((p: any) => p.title.toLowerCase().includes('printer'))
 
                 setPlans(fetchedPlans)
                 setAddons(fetchedAddons)
                 setLaptops(fetchedLaptops)
+                setPrinters(fetchedPrinters)
             } catch (error) {
                 console.error("Failed to fetch products", error)
             } finally {
@@ -108,27 +100,75 @@ export function Home() {
                     </div>
                 )}
 
+                {/* Printers Section */}
+                {printers.length > 0 && (
+                    <div className="mt-20">
+                        <div className="text-center mb-12">
+                            <h2 className="text-3xl font-bold text-dark-gray mb-4">Printers & Accessories</h2>
+                            <p className="text-gray-500 max-w-2xl mx-auto">
+                                high-performance printers for home and office usage.
+                            </p>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                            {printers.map((printer: any) => (
+                                <LaptopCard key={printer.id} product={printer} />
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 <div className="mt-24 max-w-4xl mx-auto">
                     <AddonServices addons={addons} />
                 </div>
 
                 <div className="mt-20 bg-light-gray rounded-2xl p-8 lg:p-12 relative overflow-hidden">
-                    <div className="relative z-10 max-w-2xl">
-                        <h2 className="text-3xl font-bold mb-4">Why choose Nexatechsol?</h2>
-                        <ul className="space-y-4">
-                            <li className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-secondary text-primary flex items-center justify-center font-bold">1</div>
-                                <p className="font-medium">Instant digital delivery to your email.</p>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-secondary text-primary flex items-center justify-center font-bold">2</div>
-                                <p className="font-medium">Official reseller guarantees generic software.</p>
-                            </li>
-                            <li className="flex items-center gap-3">
-                                <div className="w-8 h-8 rounded-full bg-secondary text-primary flex items-center justify-center font-bold">3</div>
-                                <p className="font-medium">24/7 Premium technical support included.</p>
-                            </li>
-                        </ul>
+                    <div className="relative z-10 max-w-4xl mx-auto space-y-6 text-sm text-gray-600">
+                        <section>
+                            <h4 className="font-bold text-dark-gray mb-2">Disclaimer:</h4>
+                            <p>
+                                Hardware Manufacturers and Independent Software Vendors provide standard warranties with their products free of cost, if you purchased a new product from nexatechsol.com or directly from the manufacturer, and you are covered under standard warranty, we highly recommend that you register your purchase with the manufacturer and reach out to their in-house customer service teams.
+                            </p>
+                        </section>
+
+                        <p>
+                            Please read on if you are looking for an extended Protection Plan for your Products and are looking for total protection (hardware, software and managed service) beyond the standard warranty. In that case, NexatechTotal Protection is for you.
+                        </p>
+
+                        <div className="bg-white p-6 rounded-lg shadow-sm border border-secondary/20">
+                            <p className="font-medium text-primary mb-2">Need Help?</p>
+                            <p className="mb-4">
+                                Is your computer running too slow? Are file downloads and transfers taking longer than usual? Does your system keep restarting? Do you have Internet connectivity or printer-related issues? A simple thing to do is to call Nexatech repair experts. Call <span className="font-bold text-secondary">1-888 431 7172</span> to get help now.
+                            </p>
+                            <p className="text-xs text-gray-500">
+                                ** We are committed to providing world-class support to our customers. As part of Virtual Assistance Service, we help our customers price match services. Helping you find great deals on purchases helps you save money.
+                            </p>
+                        </div>
+
+                        <p className="text-xs italic">
+                            *** Nexatech Plans can be canceled anytime. The refunds will be made on pro-rata basis. In case of cancellation, one-time incident fee of $29 is payable.
+                        </p>
+
+                        <p className="text-xs font-bold">
+                            *Nexatech Total Protection is an Annual Membership Plan that can be renewed every year at Customer's request. Nexatech Pro cannot be auto-renewed.
+                        </p>
+
+                        <div className="mt-8 border-t pt-8">
+                            <h2 className="text-2xl font-bold mb-4">Why choose Nexatechsol?</h2>
+                            <ul className="space-y-4">
+                                <li className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-secondary text-primary flex items-center justify-center font-bold">1</div>
+                                    <p className="font-medium">Instant digital delivery to your email.</p>
+                                </li>
+                                <li className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-secondary text-primary flex items-center justify-center font-bold">2</div>
+                                    <p className="font-medium">Official reseller guarantees generic software.</p>
+                                </li>
+                                <li className="flex items-center gap-3">
+                                    <div className="w-8 h-8 rounded-full bg-secondary text-primary flex items-center justify-center font-bold">3</div>
+                                    <p className="font-medium">24/7 Premium technical support included.</p>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     {/* Background Decoration */}
                     <div className="absolute right-0 bottom-0 opacity-10">

@@ -12,6 +12,10 @@
 }
 
 /* Custom Base Styles */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: 'Montserrat', sans-serif;
   @apply bg-white text-gray-900;

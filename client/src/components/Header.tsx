@@ -1,5 +1,6 @@
 import { ShoppingCart, Search, Menu, User } from 'lucide-react'
 import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { useCartStore } from '../stores/useCartStore'
 import { AuthService } from '../api/auth'
 import logo from '../assets/logo.png'
@@ -9,15 +10,12 @@ export function Header() {
     const { items, toggleCart } = useCartStore()
     const itemCount = items.reduce((acc, item) => acc + item.quantity, 0)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+    const location = useLocation()
 
     return (
         <header className="sticky top-0 z-50 shadow-md flex flex-col">
             {/* Top Bar */}
-            <div className="bg-secondary text-primary py-1 px-4 text-xs font-bold text-center sm:text-right">
-                <div className="container">
-                    <span>Customer Care: 888 431 7172</span>
-                </div>
-            </div>
+            {/* Top Bar Removed as per request */}
 
             <div className="bg-primary text-text-light">
                 <div className="container h-20 flex items-center justify-between">
@@ -101,9 +99,9 @@ export function Header() {
                 {mobileMenuOpen && (
                     <div className="md:hidden bg-primary border-t border-white/10">
                         <nav className="flex flex-col p-4 space-y-4">
-                            <a href="/" className="text-white hover:text-secondary transition-colors">Home</a>
-                            <a href="/antivirus" className="text-white hover:text-secondary transition-colors">Antivirus Software</a>
-                            <a href="/laptops" className="text-white hover:text-secondary transition-colors">Laptops</a>
+                            <Link to="/" className={`text-white transition-colors ${location.pathname === '/' ? 'text-secondary font-bold' : 'hover:text-secondary'}`}>Home</Link>
+                            <Link to="/antivirus" className={`text-white transition-colors ${location.pathname === '/antivirus' ? 'text-secondary font-bold' : 'hover:text-secondary'}`}>Antivirus Software</Link>
+                            <Link to="/laptops" className={`text-white transition-colors ${location.pathname === '/laptops' ? 'text-secondary font-bold' : 'hover:text-secondary'}`}>Laptops & Printers</Link>
                         </nav>
                     </div>
                 )}
@@ -113,13 +111,14 @@ export function Header() {
                 <div className="hidden md:block bg-primary border-t border-white/10">
                     <div className="container">
                         <nav className="flex items-center gap-8 h-12 text-sm font-medium">
-                            <a href="/" className="hover:text-secondary transition-colors">Home</a>
-                            <a href="/antivirus" className="hover:text-secondary transition-colors">Antivirus Software</a>
-                            <a href="/laptops" className="hover:text-secondary transition-colors">Laptops</a>
+                            <Link to="/" className={`transition-colors ${location.pathname === '/' ? 'text-secondary font-bold' : 'hover:text-secondary'}`}>Home</Link>
+                            <Link to="/antivirus" className={`transition-colors ${location.pathname === '/antivirus' ? 'text-secondary font-bold' : 'hover:text-secondary'}`}>Antivirus Software</Link>
+                            <Link to="/laptops" className={`transition-colors ${location.pathname === '/laptops' ? 'text-secondary font-bold' : 'hover:text-secondary'}`}>Laptops & Printers</Link>
                         </nav>
                     </div>
                 </div>
             </div>
-        </header>
+
+        </header >
     )
 }
