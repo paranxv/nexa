@@ -106,7 +106,7 @@ export function Home() {
                         <div className="text-center mb-12">
                             <h2 className="text-3xl font-bold text-dark-gray mb-4">Printers & Accessories</h2>
                             <p className="text-gray-500 max-w-2xl mx-auto">
-                                high-performance printers for home and office usage.
+                                High-performance printers from top brands like HP, Canon, Brother, and Epson.
                             </p>
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
